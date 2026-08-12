@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Order Delivery | Shalimar Restaurant</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
+</head>
+<body>
+  <canvas id="bg"></canvas>
+
+  <nav class="nav">
+    <a class="brand" href="index.html">SHALIMAR</a>
+    <div class="links">
+      <a href="index.html">Home</a>
+      <a href="menu.html">Menu</a>
+      <a href="orders.html" class="active">Order</a>
+      <a href="reviews.html">Reviews</a>
+      <a href="login.html" class="admin-link">Admin</a>
+    </div>
+  </nav>
+
+  <main class="page center">
+    <h1 class="page-title">Order Delivery</h1>
+    <p class="muted">Get Shalimar's biryani & kebabs delivered to your door.</p>
+
+    <div class="delivery">
+      <a class="card app-card zomato" data-tilt
+         href="https://www.zomato.com/mumbai/shalimar-restaurant" target="_blank" rel="noopener">
+        <div class="card-inner">
+          <div class="app-logo">Z</div>
+          <h3>Order on Zomato</h3>
+          <p>Delivery & takeaway in minutes</p>
+        </div>
+      </a>
+      <a class="card app-card swiggy" data-tilt
+         href="https://www.swiggy.com/restaurants/shalimar" target="_blank" rel="noopener">
+        <div class="card-inner">
+          <div class="app-logo">S</div>
+          <h3>Order on Swiggy</h3>
+          <p>Fast delivery, live tracking</p>
+        </div>
+      </a>
+    </div>
+
+    <a class="btn ghost" href="menu.html">Browse menu first</a>
+  </main>
+
+  <footer class="footer">Pick-up also available — call <a href="tel:02269098888">022 6909 8888</a></footer>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
