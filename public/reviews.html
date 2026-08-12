@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reviews | Shalimar Restaurant</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
+</head>
+<body>
+  <canvas id="bg"></canvas>
+
+  <nav class="nav">
+    <a class="brand" href="index.html">SHALIMAR</a>
+    <div class="links">
+      <a href="index.html">Home</a>
+      <a href="menu.html">Menu</a>
+      <a href="orders.html">Order</a>
+      <a href="reviews.html" class="active">Reviews</a>
+      <a href="login.html" class="admin-link">Admin</a>
+    </div>
+  </nav>
+
+  <main class="page">
+    <h1 class="page-title">Guest Reviews</h1>
+
+    <div class="card wide form-card" data-tilt>
+      <div class="card-inner">
+        <h3>Leave a review</h3>
+        <form id="review-form">
+          <input id="r-name" type="text" placeholder="Your name (optional)" maxlength="50" />
+          <div class="stars" id="stars">
+            <button type="button" data-s="1">★</button>
+            <button type="button" data-s="2">★</button>
+            <button type="button" data-s="3">★</button>
+            <button type="button" data-s="4">★</button>
+            <button type="button" data-s="5">★</button>
+          </div>
+          <textarea id="r-comment" rows="3" placeholder="Tell us about your meal…" required></textarea>
+          <button class="btn gold" type="submit">Post Review</button>
+          <p id="form-msg" class="msg"></p>
+        </form>
+      </div>
+    </div>
+
+    <div id="reviews" class="menu-grid"><p class="loading">Loading reviews…</p></div>
+  </main>
+
+  <footer class="footer">© <span id="year"></span> Shalimar Restaurant</footer>
+
+  <script type="module" src="js/app.js"></script>
+  <script type="module">
+    let rating = 5;
+    const stars = document.getElementById('stars');
+    const setStars = () => [...stars.children].forEach((b, i) =>
+      b.classList.toggle('on', i < rating));
+    stars.addEventListener('click', e => {
+      if (e.target.dataset.s) { rating = Number(e.target.dataset.s); setStars(); }
+    });
+    setStars();
+
+    const reviewsEl = document.getElementById('reviews');
+    const load = async () => {
+      const res = await fetch('/api/reviews');
+      const list = await res.json();
+      reviewsEl.innerHTML = list.map(r => `
+        <div class="card review" data-tilt>
+          <div class="card-inner">
+            <div class="dish-head">
+              <h3>${r.author}</h3>
+              <span class="stars-out">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</span>
+            </div>
+            <p>${r.comment}</p>
+            <small class="muted">${r.created_at}</small>
+          </div>
+        </div>`).join('') || '<p class="muted">No reviews yet — be the first!</p>';
+      [...reviewsEl.querySelectorAll('[data-tilt]')].forEach(el =>
+        new VanillaTilt(el, { max: 8, speed: 500 }));
+    };
+
+    document.getElementById('review-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const msg = document.getElementById('form-msg');
+      const res = await fetch('/api/reviews', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          author: document.getElementById('r-name').value,
+          rating,
+          comment: document.getElementById('r-comment').value
+        })
+      });
+      if (res.ok) {
+        msg.textContent = 'Thanks! Review posted.';
+        msg.className = 'msg ok';
+        document.getElementById('r-comment').value = '';
+        load();
+      } else {
+        msg.textContent = 'Please write a comment.';
+        msg.className = 'msg err';
+      }
+    });
+
+    load();
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
