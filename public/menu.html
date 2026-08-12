@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Menu | Shalimar Restaurant</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
+</head>
+<body>
+  <canvas id="bg"></canvas>
+
+  <nav class="nav">
+    <a class="brand" href="index.html">SHALIMAR</a>
+    <div class="links">
+      <a href="index.html">Home</a>
+      <a href="menu.html" class="active">Menu</a>
+      <a href="orders.html">Order</a>
+      <a href="reviews.html">Reviews</a>
+      <a href="login.html" class="admin-link">Admin</a>
+    </div>
+  </nav>
+
+  <main class="page">
+    <h1 class="page-title">Our Menu</h1>
+    <div id="filters" class="filters"></div>
+    <div id="menu" class="menu-grid"><p class="loading">Loading menu…</p></div>
+  </main>
+
+  <footer class="footer">Craving it? <a class="btn gold sm" href="orders.html">Order on Zomato / Swiggy</a></footer>
+
+  <script type="module" src="js/app.js"></script>
+  <script type="module">
+    const menuEl = document.getElementById('menu');
+    const filterEl = document.getElementById('filters');
+    let items = [];
+
+    const render = (cat) => {
+      const list = cat === 'All' ? items : items.filter(i => i.category === cat);
+      menuEl.innerHTML = list.map(i => `
+        <div class="card dish" data-tilt>
+          <div class="card-inner">
+            <div class="dish-head">
+              <h3>${i.name}</h3>
+              <span class="price">₹${Number(i.price).toFixed(0)}</span>
+            </div>
+            <span class="cat">${i.category}</span>
+            ${i.stock === 0
+              ? '<span class="badge sold">Sold out</span>'
+              : `<span class="badge">In stock · ${i.stock}</span>`}
+          </div>
+        </div>`).join('');
+      [...menuEl.querySelectorAll('[data-tilt]')].forEach(el =>
+        new VanillaTilt(el, { max: 14, speed: 500, glare: true, 'max-glare': 0.2 }));
+    };
+
+    const res = await fetch('/api/menu');
+    items = await res.json();
+    const cats = ['All', ...new Set(items.map(i => i.category))];
+    filterEl.innerHTML = cats.map((c, idx) =>
+      `<button class="chip-btn ${idx === 0 ? 'on' : ''}" data-cat="${c}">${c}</button>`).join('');
+    filterEl.addEventListener('click', e => {
+      if (e.target.classList.contains('chip-btn')) {
+        filterEl.querySelectorAll('.chip-btn').forEach(b => b.classList.remove('on'));
+        e.target.classList.add('on');
+        render(e.target.dataset.cat);
+      }
+    });
+    render('All');
+  </script>
+</body>
+</html>
