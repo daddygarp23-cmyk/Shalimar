@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shalimar Restaurant | Bhendi Bazaar, Mumbai</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
+</head>
+<body>
+  <canvas id="bg"></canvas>
+
+  <nav class="nav">
+    <a class="brand" href="index.html">SHALIMAR</a>
+    <div class="links">
+      <a href="index.html">Home</a>
+      <a href="menu.html">Menu</a>
+      <a href="orders.html">Order</a>
+      <a href="reviews.html">Reviews</a>
+      <a href="login.html" class="admin-link">Admin</a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <h1 class="hero-title tilt-text">SHALIMAR</h1>
+    <p class="hero-sub">Bhendi Bazaar · Mumbai — the legendary late-night kitchen.</p>
+    <div class="chips">
+      <span class="chip">🌙 Open · Closes 3 am</span>
+      <span class="chip">☎ 022 6909 8888</span>
+    </div>
+    <div class="hero-cta">
+      <a class="btn gold" href="menu.html">View Menu</a>
+      <a class="btn ghost" href="orders.html">Order Now</a>
+    </div>
+  </header>
+
+  <section class="section">
+    <h2 class="section-title">What We Offer</h2>
+    <div class="grid3">
+      <div class="card" data-tilt>
+        <div class="card-inner">
+          <div class="emoji">🍛</div>
+          <h3>All You Can Eat</h3>
+          <p>Unlimited servings of our signature biryani, curries and breads.</p>
+        </div>
+      </div>
+      <div class="card" data-tilt>
+        <div class="card-inner">
+          <div class="emoji">🍢</div>
+          <h3>Happy-Hour Food</h3>
+          <p>Fresh-off-the-tawa kebabs and starters at happy-hour prices.</p>
+        </div>
+      </div>
+      <div class="card" data-tilt>
+        <div class="card-inner">
+          <div class="emoji">🥂</div>
+          <h3>Private Dining Room</h3>
+          <p>Book our private room for family gatherings and parties.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section info">
+    <h2 class="section-title">Find Us</h2>
+    <div class="card wide" data-tilt>
+      <div class="card-inner">
+        <p><strong>Address:</strong> Shalimar Restaurant, Bhendi Bazaar, Mandvi, Mumbai, Maharashtra 400003</p>
+        <p><strong>Phone:</strong> <a href="tel:02269098888">022 6909 8888</a></p>
+        <p><strong>Menu online:</strong> <a href="https://shalimarrestaurants.co" target="_blank" rel="noopener">shalimarrestaurants.co</a></p>
+        <p><strong>Hours:</strong> Open · Closes 3 am</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">© <span id="year"></span> Shalimar Restaurant, Bhendi Bazaar. Made with ❤️</footer>
+
+  <script type="module" src="js/app.js"></script>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>
